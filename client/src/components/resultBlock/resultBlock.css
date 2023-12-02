@@ -1,0 +1,22 @@
+.list {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.list__item {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.search__block {
+  display: flex;
+  align-items: center;
+}
+
+.error__message {
+  color: red;
+  margin-top: 5px;
+}

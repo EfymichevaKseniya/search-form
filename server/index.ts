@@ -85,7 +85,7 @@ function isValidEmail(email: string) {
 
 function isValidNumber(number: string) {
   const numberRegex = /^[0-9]+$/;
-  return numberRegex.test(number);
+  return numberRegex.test(number) && number.length === 6;
 }
 
 function findUsers({ email, number }: User) {

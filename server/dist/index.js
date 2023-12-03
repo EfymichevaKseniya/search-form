@@ -49,15 +49,11 @@ app.post('/search', (req, res) => {
     if (!email) {
         return res.status(400).json({ error: 'Email field is required.' });
     }
-    else {
-        if (!isValidEmail(email)) {
-            return res.status(400).json({ error: 'Invalid email' });
-        }
-        else {
-            if (number && !isValidNumber(number)) {
-                return res.status(400).json({ error: 'Invalid Number field' });
-            }
-        }
+    if (!isValidEmail(email)) {
+        return res.status(400).json({ error: 'Invalid email' });
+    }
+    if (number && !isValidNumber(number)) {
+        return res.status(400).json({ error: 'Invalid Number field' });
     }
     previousRequestTimeout = setTimeout(() => {
         // Simulate data retrieval
@@ -71,7 +67,7 @@ function isValidEmail(email) {
 }
 function isValidNumber(number) {
     const numberRegex = /^[0-9]+$/;
-    return numberRegex.test(number);
+    return numberRegex.test(number) && number.length === 6;
 }
 function findUsers({ email, number }) {
     let foundedUsers = [];

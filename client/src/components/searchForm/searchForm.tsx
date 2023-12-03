@@ -13,7 +13,7 @@ const SearchForm: React.FC = () => {
   const inputRef = useMask({ mask: '__-__-__', replacement: '_', showMask: true, separate: true })
   const [values, setValues] = useState<User>({
     email: '',
-    number: ''
+    number: '__-__-__'
   })
 
   const [searchResult, setSearchResult] = useState<User[] | null>(null)
@@ -34,13 +34,15 @@ const SearchForm: React.FC = () => {
     try {
       setLoading(true)
       const res = await request('search', 'POST', { ...values, ...{ 'number': values.number?.split('-').join('').replace(/_/g, '') }})
-      if (res.status !== 200) {
-        throw new Error((await res.json()).error)
-      }
       const result = await res.json()
+
+      if (res.status !== 200) {
+        throw new Error((result.error))
+      }
 
       setSearchResult(result)
       setLoading(false)
+
     } catch (error) {
       setError((error as Error).message)
       setLoading(false)
@@ -54,14 +56,14 @@ const SearchForm: React.FC = () => {
       >
         <label className="form__label">
           Email
-          <input
-            type="email"
-            name='email'
-            className="form__input"
-            value={values.email}
-            onChange={handleChangeInput}
-          />
-        </label>
+            <input
+              type="email"
+              name='email'
+              className="form__input"
+              value={values.email}
+              onChange={handleChangeInput}
+            />
+          </label>
         <label className="form__label">
           Number
           <input
@@ -80,7 +82,11 @@ const SearchForm: React.FC = () => {
         </button>
       </form>
       <div className="search__block">
-        <ResultBlock data={searchResult} loading={loading} errorMessage={error} />
+        <ResultBlock
+          data={searchResult}
+          loading={loading}
+          errorMessage={error}
+        />
       </div>
     </div>
 
